@@ -10,7 +10,7 @@ module Binance
     include Binance::Utils::Faraday::Middleware
 
     def initialize(options = {})
-      @base_url = options[:base_url] || 'https://api.binance.com'
+      @base_url = options[:base_url] || 'https://fapi.binance.com'
       @auth = Authentication.new(options[:key], options[:secret])
       @logger = options[:logger]
       @show_weight_usage = options[:show_weight_usage] || false
