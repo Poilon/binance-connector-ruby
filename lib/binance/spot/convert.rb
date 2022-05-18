@@ -16,13 +16,13 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#convert-endpoints
       def convert_trade_flow(startTime:, endTime:, **kwargs)
-          Binance::Utils::Validation.require_param('startTime', startTime)
-          Binance::Utils::Validation.require_param('endTime', endTime)
+        Binance::Utils::Validation.require_param('startTime', startTime)
+        Binance::Utils::Validation.require_param('endTime', endTime)
 
-          @session.sign_request(:get, '/sapi/v1/convert/tradeFlow', params: kwargs.merge(
+        @session.sign_request(:get, '/sapi/v1/convert/tradeFlow', params: kwargs.merge(
           startTime: startTime,
           endTime: endTime
-          ))
+        ))
       end
     end
   end
