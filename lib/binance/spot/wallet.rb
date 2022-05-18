@@ -221,6 +221,21 @@ module Binance
         @session.sign_request(:get, '/sapi/v1/asset/assetDividend', params: kwargs)
       end
 
+      # Asset Tax Query (USER_DATA)
+      #
+      # GET /sapi/v1/rebate/taxQuery
+      #
+      # @param kwargs [Hash]
+      # @option kwargs [Integer] :startTime
+      # @option kwargs [Integer] :endTime
+      # @option kwargs [Integer] :page Default 1
+      # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
+      # @see https://binance-docs.github.io/apidocs/spot/en/#get-spot-rebate-history-records-user_data
+      def asset_tax_query_record(**kwargs)
+        @session.sign_request(:get, '/sapi/v1/rebate/taxQuery', params: kwargs)
+      end
+
+
       # Asset Detail (USER_DATA)
       #
       # GET /sapi/v1/asset/assetDetail
