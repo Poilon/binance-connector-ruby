@@ -5,6 +5,19 @@ module Binance
     # Futures endpoints
     # @see https://binance-docs.github.io/apidocs/spot/en/#futures
     module Futures
+
+      # Get Future Symbol Price Ticker
+      #
+      # GET /fapi/v1/ticker/price
+      #
+
+      # @option kwargs [String] :symbol
+      # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
+      # @see https://binance-docs.github.io/apidocs/futures/en/#symbol-price-ticker
+      def futures_symbol_price_ticker(**kwargs)
+        @session.sign_request(:get, '/fapi/v1/ticker/price', params: kwargs)
+      end
+
       # New Future Account Transfer (USER_DATA)
       #
       # POST /sapi/v1/futures/transfer
