@@ -217,7 +217,7 @@ module Binance
       # @option kwargs [Integer] :limit Default 20, max 500
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#asset-dividend-record-user_data
-      def asset_devidend_record(**kwargs)
+      def asset_dividend_record(**kwargs)
         @session.sign_request(:get, '/sapi/v1/asset/assetDividend', params: kwargs)
       end
 
