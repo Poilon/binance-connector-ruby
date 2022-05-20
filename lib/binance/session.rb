@@ -87,7 +87,7 @@ module Binance
     end
 
     def build_connection
-      Faraday.new(url: @base_url, proxy: ::ENV.fetch("HTTP_PROXY", nil)) do |client|
+      Faraday.new(url: @base_url, proxy: ::ENV.fetch("http_proxy", nil)) do |client|
         prepare_headers(client)
         client.options.timeout = @timeout
         client.options.params_encoder = Binance::Utils::Faraday::CustomParamsEncoder
