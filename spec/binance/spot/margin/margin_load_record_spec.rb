@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe Binance::Spot::Margin, '#margin_load_record' do
+RSpec.describe Binance::Spot::Margin, '#margin_loan_record' do
   let(:path) { '/sapi/v1/margin/loan' }
   let(:body) { fixture('response.json') }
   let(:status) { 200 }
@@ -15,7 +15,7 @@ RSpec.describe Binance::Spot::Margin, '#margin_load_record' do
   context 'validation asset' do
     let(:params) { { "asset": '', "recvWindow": 1_000 } }
     it 'should raise validation error without asset' do
-      expect { spot_client_signed.margin_load_record(**params) }.to raise_error(Binance::RequiredParameterError)
+      expect { spot_client_signed.margin_loan_record(**params) }.to raise_error(Binance::RequiredParameterError)
     end
   end
 
@@ -27,7 +27,7 @@ RSpec.describe Binance::Spot::Margin, '#margin_load_record' do
       }
     end
     it 'should query load record' do
-      spot_client_signed.margin_load_record(**params)
+      spot_client_signed.margin_loan_record(**params)
       expect(send_a_request_with_signature(:get, path, params)).to have_been_made
     end
   end

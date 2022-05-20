@@ -11,4 +11,4 @@ logger = Common.setup_logger
 # set key here
 # or BINANCE_PUBLIC_API_KEY in env
 client = Binance::Spot.new(key: '')
-logger.info(client.margin_load_record(asset: 'BNB', startTime: '1581783387615'))
+logger.info(client.margin_loan_record(asset: 'BNB', startTime: '1581783387615'))

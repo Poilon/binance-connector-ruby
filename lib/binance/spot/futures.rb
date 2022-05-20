@@ -10,7 +10,6 @@ module Binance
       #
       # GET /fapi/v1/ticker/price
       #
-
       # @option kwargs [String] :symbol
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/futures/en/#symbol-price-ticker
@@ -25,15 +24,41 @@ module Binance
       #
       # GET /fapi/v1/userTrades
       #
-
       # @param symbol [String]
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
-      # @see https://binance-docs.github.io/apidocs/futures/en/#symbol-price-ticker
+      # @see https://binance-docs.github.io/apidocs/futures/en/#account-trade-list-user_data
       def futures_trades(symbol:, **kwargs)
-        Binance::Utils::Validation.require_param('symbol', symbol)
+        # Binance::Utils::Validation.require_param('symbol', symbol)
 
         @session.base_url = "https://fapi.binance.com"
-        result = @session.sign_request(:get, '/fapi/v1/userTrades', params: kwargs)
+        result = @session.sign_request(:get, '/fapi/v1/userTrades', params: kwargs.merge(symbol: symbol))
+        @session.base_url = "https://api.binance.com"
+        result
+      end
+
+      # Get Future Symbol Price Ticker
+      #
+      # GET /dapi/v1/ticker/price
+      #
+      # @option kwargs [String] :symbol
+      # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
+      # @see https://binance-docs.github.io/apidocs/delivery/en/#symbol-price-ticker
+      def delivery_symbol_price_ticker(**kwargs)
+        @session.base_url = "https://dapi.binance.com"
+        result = @session.sign_request(:get, '/dapi/v1/ticker/price', params: kwargs)
+        @session.base_url = "https://api.binance.com"
+        result
+      end
+
+      # Get Future User Trades (USER_DATA)
+      #
+      # GET /dapi/v1/userTrades
+      #
+      # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
+      # @see https://binance-docs.github.io/apidocs/delivery/en/#account-trade-list-user_data
+      def delivery_trades(**kwargs)
+        @session.base_url = "https://dapi.binance.com"
+        result = @session.sign_request(:get, '/dapi/v1/userTrades', params: kwargs)
         @session.base_url = "https://api.binance.com"
         result
       end

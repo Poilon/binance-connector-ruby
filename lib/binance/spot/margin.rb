@@ -229,7 +229,7 @@ module Binance
       # @option kwargs [String] :archived Default: false. Set to true for archived data from 6 months ago
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#query-loan-record-user_data
-      def margin_load_record(asset:, **kwargs)
+      def margin_loan_record(asset:, **kwargs)
         Binance::Utils::Validation.require_param('asset', asset)
 
         @session.sign_request(:get, '/sapi/v1/margin/loan', params: kwargs.merge(asset: asset))
