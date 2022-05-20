@@ -28,7 +28,7 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/futures/en/#account-trade-list-user_data
       def futures_trades(symbol:, **kwargs)
-        # Binance::Utils::Validation.require_param('symbol', symbol)
+        Binance::Utils::Validation.require_param('symbol', symbol)
 
         @session.base_url = "https://fapi.binance.com"
         result = @session.sign_request(:get, '/fapi/v1/userTrades', params: kwargs.merge(symbol: symbol))
