@@ -5,7 +5,6 @@ module Binance
     # Futures endpoints
     # @see https://binance-docs.github.io/apidocs/spot/en/#futures
     module Futures
-
       # Get Future Symbol Price Ticker
       #
       # GET /fapi/v1/ticker/price
@@ -15,7 +14,7 @@ module Binance
       # @see https://binance-docs.github.io/apidocs/futures/en/#symbol-price-ticker
       def future_symbol_price_ticker(**kwargs)
         @session.base_url = "https://fapi.binance.com"
-        result = @session.sign_request(:get, '/fapi/v1/ticker/price', params: kwargs)
+        result = @session.sign_request(:get, "/fapi/v1/ticker/price", params: kwargs)
         @session.base_url = "https://api.binance.com"
         result
       end
@@ -28,10 +27,10 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/futures/en/#account-trade-list-user_data
       def future_trades(symbol:, **kwargs)
-        Binance::Utils::Validation.require_param('symbol', symbol)
+        Binance::Utils::Validation.require_param("symbol", symbol)
 
         @session.base_url = "https://fapi.binance.com"
-        result = @session.sign_request(:get, '/fapi/v1/userTrades', params: kwargs.merge(symbol: symbol))
+        result = @session.sign_request(:get, "/fapi/v1/userTrades", params: kwargs.merge(symbol: symbol))
         @session.base_url = "https://api.binance.com"
         result
       end
@@ -45,7 +44,7 @@ module Binance
       # @see https://binance-docs.github.io/apidocs/delivery/en/#symbol-price-ticker
       def delivery_symbol_price_ticker(**kwargs)
         @session.base_url = "https://dapi.binance.com"
-        result = @session.sign_request(:get, '/dapi/v1/ticker/price', params: kwargs)
+        result = @session.sign_request(:get, "/dapi/v1/ticker/price", params: kwargs)
         @session.base_url = "https://api.binance.com"
         result
       end
@@ -58,7 +57,21 @@ module Binance
       # @see https://binance-docs.github.io/apidocs/delivery/en/#account-trade-list-user_data
       def delivery_trades(**kwargs)
         @session.base_url = "https://dapi.binance.com"
-        result = @session.sign_request(:get, '/dapi/v1/userTrades', params: kwargs)
+        result = @session.sign_request(:get, "/dapi/v1/userTrades", params: kwargs)
+        @session.base_url = "https://api.binance.com"
+        result
+      end
+
+      # Get Future Funding Rate History (USER_DATA)
+      #
+      # GET /fapi/v1/fundingRate
+      #
+      # @param symbol [String]
+      # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
+      # @see https://binance-docs.github.io/apidocs/futures/en/#get-funding-rate-history
+      def future_funding_rates(**kwargs)
+        @session.base_url = "https://fapi.binance.com"
+        result = @session.sign_request(:get, "/fapi/v1/fundingRate", params: kwargs)
         @session.base_url = "https://api.binance.com"
         result
       end
@@ -79,11 +92,11 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#new-future-account-transfer-user_data
       def futures_account_transfer(asset:, amount:, type:, **kwargs)
-        Binance::Utils::Validation.require_param('asset', asset)
-        Binance::Utils::Validation.require_param('amount', amount)
-        Binance::Utils::Validation.require_param('type', type)
+        Binance::Utils::Validation.require_param("asset", asset)
+        Binance::Utils::Validation.require_param("amount", amount)
+        Binance::Utils::Validation.require_param("type", type)
 
-        @session.sign_request(:post, '/sapi/v1/futures/transfer', params: kwargs.merge(
+        @session.sign_request(:post, "/sapi/v1/futures/transfer", params: kwargs.merge(
           asset: asset,
           amount: amount,
           type: type
@@ -103,10 +116,10 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#get-future-account-transaction-history-list-user_data
       def futures_account_transfer_history(asset:, startTime:, **kwargs)
-        Binance::Utils::Validation.require_param('asset', asset)
-        Binance::Utils::Validation.require_param('startTime', startTime)
+        Binance::Utils::Validation.require_param("asset", asset)
+        Binance::Utils::Validation.require_param("startTime", startTime)
 
-        @session.sign_request(:get, '/sapi/v1/futures/transfer', params: kwargs.merge(
+        @session.sign_request(:get, "/sapi/v1/futures/transfer", params: kwargs.merge(
           asset: asset,
           startTime: startTime
         ))
@@ -124,10 +137,10 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#borrow-for-cross-collateral-trade
       def cross_collateral_borrow(coin:, collateralCoin:, **kwargs)
-        Binance::Utils::Validation.require_param('coin', coin)
-        Binance::Utils::Validation.require_param('collateralCoin', collateralCoin)
+        Binance::Utils::Validation.require_param("coin", coin)
+        Binance::Utils::Validation.require_param("collateralCoin", collateralCoin)
 
-        @session.sign_request(:post, '/sapi/v1/futures/loan/borrow', params: kwargs.merge(
+        @session.sign_request(:post, "/sapi/v1/futures/loan/borrow", params: kwargs.merge(
           coin: coin,
           collateralCoin: collateralCoin
         ))
@@ -145,7 +158,7 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-borrow-history-user_data
       def cross_collateral_borrow_history(**kwargs)
-        @session.sign_request(:get, '/sapi/v1/futures/loan/borrow/history', params: kwargs)
+        @session.sign_request(:get, "/sapi/v1/futures/loan/borrow/history", params: kwargs)
       end
 
       # Repay For Cross-Collateral (TRADE)
@@ -159,11 +172,11 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#repay-for-cross-collateral-trade
       def cross_collateral_repay(coin:, collateralCoin:, amount:, **kwargs)
-        Binance::Utils::Validation.require_param('coin', coin)
-        Binance::Utils::Validation.require_param('collateralCoin', collateralCoin)
-        Binance::Utils::Validation.require_param('amount', amount)
+        Binance::Utils::Validation.require_param("coin", coin)
+        Binance::Utils::Validation.require_param("collateralCoin", collateralCoin)
+        Binance::Utils::Validation.require_param("amount", amount)
 
-        @session.sign_request(:post, '/sapi/v1/futures/loan/repay', params: kwargs.merge(
+        @session.sign_request(:post, "/sapi/v1/futures/loan/repay", params: kwargs.merge(
           coin: coin,
           collateralCoin: collateralCoin,
           amount: amount
@@ -182,7 +195,7 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-repayment-history-user_data
       def cross_collateral_repay_history(**kwargs)
-        @session.sign_request(:get, '/sapi/v1/futures/loan/repay/history', params: kwargs)
+        @session.sign_request(:get, "/sapi/v1/futures/loan/repay/history", params: kwargs)
       end
 
       # Cross-Collateral Wallet (USER_DATA)
@@ -193,7 +206,7 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-wallet-v2-user_data
       def cross_collateral_wallet(**kwargs)
-        @session.sign_request(:get, '/sapi/v2/futures/loan/wallet', params: kwargs)
+        @session.sign_request(:get, "/sapi/v2/futures/loan/wallet", params: kwargs)
       end
 
       # Cross-Collateral Information (USER_DATA)
@@ -206,7 +219,7 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-information-v2-user_data
       def cross_collateral_info(**kwargs)
-        @session.sign_request(:get, '/sapi/v2/futures/loan/configs', params: kwargs)
+        @session.sign_request(:get, "/sapi/v2/futures/loan/configs", params: kwargs)
       end
 
       # Calculate Rate After Adjust Cross-Collateral LTV (USER_DATA)
@@ -221,12 +234,12 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#calculate-rate-after-adjust-cross-collateral-ltv-v2-user_data
       def calculate_adjust_rate(loanCoin:, collateralCoin:, amount:, direction:, **kwargs)
-        Binance::Utils::Validation.require_param('loanCoin', loanCoin)
-        Binance::Utils::Validation.require_param('collateralCoin', collateralCoin)
-        Binance::Utils::Validation.require_param('amount', amount)
-        Binance::Utils::Validation.require_param('direction', direction)
+        Binance::Utils::Validation.require_param("loanCoin", loanCoin)
+        Binance::Utils::Validation.require_param("collateralCoin", collateralCoin)
+        Binance::Utils::Validation.require_param("amount", amount)
+        Binance::Utils::Validation.require_param("direction", direction)
 
-        @session.sign_request(:get, '/sapi/v2/futures/loan/calcAdjustLevel', params: kwargs.merge(
+        @session.sign_request(:get, "/sapi/v2/futures/loan/calcAdjustLevel", params: kwargs.merge(
           loanCoin: loanCoin,
           collateralCoin: collateralCoin,
           amount: amount,
@@ -244,10 +257,10 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#get-max-amount-for-adjust-cross-collateral-ltv-v2-user_data
       def calculate_adjust_max_amount(loanCoin:, collateralCoin:, **kwargs)
-        Binance::Utils::Validation.require_param('loanCoin', loanCoin)
-        Binance::Utils::Validation.require_param('collateralCoin', collateralCoin)
+        Binance::Utils::Validation.require_param("loanCoin", loanCoin)
+        Binance::Utils::Validation.require_param("collateralCoin", collateralCoin)
 
-        @session.sign_request(:get, '/sapi/v2/futures/loan/calcMaxAdjustAmount', params: kwargs.merge(
+        @session.sign_request(:get, "/sapi/v2/futures/loan/calcMaxAdjustAmount", params: kwargs.merge(
           loanCoin: loanCoin,
           collateralCoin: collateralCoin
         ))
@@ -265,12 +278,12 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#adjust-cross-collateral-ltv-v2-trade
       def adjust_cross_collateral(loanCoin:, collateralCoin:, amount:, direction:, **kwargs)
-        Binance::Utils::Validation.require_param('loanCoin', loanCoin)
-        Binance::Utils::Validation.require_param('collateralCoin', collateralCoin)
-        Binance::Utils::Validation.require_param('amount', amount)
-        Binance::Utils::Validation.require_param('direction', direction)
+        Binance::Utils::Validation.require_param("loanCoin", loanCoin)
+        Binance::Utils::Validation.require_param("collateralCoin", collateralCoin)
+        Binance::Utils::Validation.require_param("amount", amount)
+        Binance::Utils::Validation.require_param("direction", direction)
 
-        @session.sign_request(:post, '/sapi/v2/futures/loan/adjustCollateral', params: kwargs.merge(
+        @session.sign_request(:post, "/sapi/v2/futures/loan/adjustCollateral", params: kwargs.merge(
           loanCoin: loanCoin,
           collateralCoin: collateralCoin,
           amount: amount,
@@ -293,7 +306,7 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#adjust-cross-collateral-ltv-history-user_data
       def adjust_cross_collateral_history(**kwargs)
-        @session.sign_request(:get, '/sapi/v1/futures/loan/adjustCollateral/history', params: kwargs)
+        @session.sign_request(:get, "/sapi/v1/futures/loan/adjustCollateral/history", params: kwargs)
       end
 
       # Cross-Collateral Liquidation History (USER_DATA)
@@ -311,7 +324,7 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-liquidation-history-user_data
       def cross_collateral_liquidation_history(**kwargs)
-        @session.sign_request(:get, '/sapi/v1/futures/loan/liquidationHistory', params: kwargs)
+        @session.sign_request(:get, "/sapi/v1/futures/loan/liquidationHistory", params: kwargs)
       end
 
       # Check Collateral Repay Limit (USER_DATA)
@@ -326,10 +339,10 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#check-collateral-repay-limit-user_data
       def collateral_repay_limit(coin:, collateralCoin:, **kwargs)
-        Binance::Utils::Validation.require_param('coin', coin)
-        Binance::Utils::Validation.require_param('collateralCoin', collateralCoin)
+        Binance::Utils::Validation.require_param("coin", coin)
+        Binance::Utils::Validation.require_param("collateralCoin", collateralCoin)
 
-        @session.sign_request(:get, '/sapi/v1/futures/loan/collateralRepayLimit', params: kwargs.merge(
+        @session.sign_request(:get, "/sapi/v1/futures/loan/collateralRepayLimit", params: kwargs.merge(
           coin: coin,
           collateralCoin: collateralCoin
         ))
@@ -348,11 +361,11 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#get-collateral-repay-quote-user_data
       def collateral_repay_quote(coin:, collateralCoin:, amount:, **kwargs)
-        Binance::Utils::Validation.require_param('coin', coin)
-        Binance::Utils::Validation.require_param('collateralCoin', collateralCoin)
-        Binance::Utils::Validation.require_param('amount', amount)
+        Binance::Utils::Validation.require_param("coin", coin)
+        Binance::Utils::Validation.require_param("collateralCoin", collateralCoin)
+        Binance::Utils::Validation.require_param("amount", amount)
 
-        @session.sign_request(:get, '/sapi/v1/futures/loan/collateralRepay', params: kwargs.merge(
+        @session.sign_request(:get, "/sapi/v1/futures/loan/collateralRepay", params: kwargs.merge(
           coin: coin,
           collateralCoin: collateralCoin,
           amount: amount
@@ -370,9 +383,9 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#repay-with-collateral-user_data
       def repay_with_collateral(quoteId:, **kwargs)
-        Binance::Utils::Validation.require_param('quoteId', quoteId)
+        Binance::Utils::Validation.require_param("quoteId", quoteId)
 
-        @session.sign_request(:post, '/sapi/v1/futures/loan/collateralRepay', params: kwargs.merge(
+        @session.sign_request(:post, "/sapi/v1/futures/loan/collateralRepay", params: kwargs.merge(
           quoteId: quoteId
         ))
       end
@@ -388,9 +401,9 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#collateral-repayment-result-user_data
       def repayment_result(quoteId:, **kwargs)
-        Binance::Utils::Validation.require_param('quoteId', quoteId)
+        Binance::Utils::Validation.require_param("quoteId", quoteId)
 
-        @session.sign_request(:get, '/sapi/v1/futures/loan/collateralRepayResult', params: kwargs.merge(
+        @session.sign_request(:get, "/sapi/v1/futures/loan/collateralRepayResult", params: kwargs.merge(
           quoteId: quoteId
         ))
       end
@@ -408,7 +421,7 @@ module Binance
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/spot/en/#cross-collateral-interest-history-user_data
       def cross_collateral_interest_history(**kwargs)
-        @session.sign_request(:get, '/sapi/v1/futures/loan/interestHistory', params: kwargs)
+        @session.sign_request(:get, "/sapi/v1/futures/loan/interestHistory", params: kwargs)
       end
     end
   end

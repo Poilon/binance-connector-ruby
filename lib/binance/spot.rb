@@ -1,26 +1,27 @@
 # frozen_string_literal: true
 
-require 'binance/session'
-require 'binance/authentication'
-require 'binance/utils/validation'
-require 'binance/utils/url'
-require 'binance/error'
-require 'binance/spot/blvt'
-require 'binance/spot/bswap'
-require 'binance/spot/c2c'
-require 'binance/spot/convert'
-require 'binance/spot/fiat'
-require 'binance/spot/futures'
-require 'binance/spot/loan'
-require 'binance/spot/margin'
-require 'binance/spot/market'
-require 'binance/spot/mining'
-require 'binance/spot/savings'
-require 'binance/spot/stream'
-require 'binance/spot/subaccount'
-require 'binance/spot/trade'
-require 'binance/spot/wallet'
-require 'binance/spot/websocket'
+require "binance/session"
+require "binance/authentication"
+require "binance/utils/validation"
+require "binance/utils/url"
+require "binance/error"
+require "binance/spot/blvt"
+require "binance/spot/bswap"
+require "binance/spot/c2c"
+require "binance/spot/convert"
+require "binance/spot/fiat"
+require "binance/spot/futures"
+require "binance/spot/loan"
+require "binance/spot/margin"
+require "binance/spot/market"
+require "binance/spot/mining"
+require "binance/spot/savings"
+require "binance/spot/staking"
+require "binance/spot/stream"
+require "binance/spot/subaccount"
+require "binance/spot/trade"
+require "binance/spot/wallet"
+require "binance/spot/websocket"
 
 module Binance
   # Spot class includes the following modules:
@@ -51,12 +52,13 @@ module Binance
     include Binance::Spot::Market
     include Binance::Spot::Mining
     include Binance::Spot::Savings
+    include Binance::Spot::Staking
     include Binance::Spot::Stream
     include Binance::Spot::Subaccount
     include Binance::Spot::Trade
     include Binance::Spot::Wallet
 
-    def initialize(key: '', secret: '', **kwargs)
+    def initialize(key: "", secret: "", **kwargs)
       @session = Session.new kwargs.merge(key: key, secret: secret)
     end
   end
