@@ -20,6 +20,7 @@ require "binance/spot/staking"
 require "binance/spot/stream"
 require "binance/spot/subaccount"
 require "binance/spot/trade"
+require "binance/spot/universal_transfer"
 require "binance/spot/wallet"
 require "binance/spot/websocket"
 
@@ -56,6 +57,7 @@ module Binance
     include Binance::Spot::Stream
     include Binance::Spot::Subaccount
     include Binance::Spot::Trade
+    include Binance::Spot::UniversalTransfer
     include Binance::Spot::Wallet
 
     def initialize(key: "", secret: "", **kwargs)
