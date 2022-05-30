@@ -31,7 +31,7 @@ module Binance
     end
 
     def sign_request(method, path, params: {})
-      process_request(signed_conn, method, path, params)
+      process_request(signed_conn, method, path, params.merge(recvWindow: 60000))
     end
 
     private

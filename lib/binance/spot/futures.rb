@@ -39,7 +39,6 @@ module Binance
       #
       # GET /dapi/v1/ticker/price
       #
-      # @option kwargs [String] :symbol
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/delivery/en/#symbol-price-ticker
       def delivery_symbol_price_ticker(**kwargs)
@@ -49,29 +48,69 @@ module Binance
         result
       end
 
-      # Get Future User Trades (USER_DATA)
+      # Get Income History(USER_DATA)
       #
-      # GET /dapi/v1/userTrades
+      # GET /dapi/v1/income
       #
+
+      # @option symbol [String]
+      # @option incomeType [String] "TRANSFER","WELCOME_BONUS", "FUNDING_FEE", "REALIZED_PNL", "COMMISSION", "INSURANCE_CLEAR", and "DELIVERED_SETTELMENT"
+      # @option startTime [Integer] Timestamp in ms to get funding from INCLUSIVE.
+      # @option endTime [Integer] Timestamp in ms to get funding until INCLUSIVE.
+      # @option limit [Integer] Default 100; max 1000
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
-      # @see https://binance-docs.github.io/apidocs/delivery/en/#account-trade-list-user_data
-      def delivery_trades(**kwargs)
+      # @see https://binance-docs.github.io/apidocs/delivery/en/#get-income-history-user_data
+      def delivery_incomes(**kwargs)
         @session.base_url = "https://dapi.binance.com"
-        result = @session.sign_request(:get, "/dapi/v1/userTrades", params: kwargs)
+        result = @session.sign_request(:get, "/dapi/v1/income", params: kwargs)
         @session.base_url = "https://api.binance.com"
         result
       end
 
-      # Get Future Funding Rate History (USER_DATA)
+      # Get Funding Rate History
       #
       # GET /fapi/v1/fundingRate
       #
-      # @param symbol [String]
+      # @option symbol [String]
       # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
       # @see https://binance-docs.github.io/apidocs/futures/en/#get-funding-rate-history
       def future_funding_rates(**kwargs)
         @session.base_url = "https://fapi.binance.com"
         result = @session.sign_request(:get, "/fapi/v1/fundingRate", params: kwargs)
+        @session.base_url = "https://api.binance.com"
+        result
+      end
+
+      # Get Download Id For Futures Transaction History (USER_DATA)
+      #
+      # GET /fapi/v1/income/asyn
+      #
+      # @param startTime [Integer]
+      # @param endTime [Integer]
+      # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
+      # @see https://binance-docs.github.io/apidocs/futures/en/#get-download-id-for-futures-transaction-history-user_data
+      def incomes_asyn(start_time:, end_time:, **kwargs)
+        Binance::Utils::Validation.require_param("start_time", start_time)
+        Binance::Utils::Validation.require_param("end_time", end_time)
+
+        @session.base_url = "https://fapi.binance.com"
+        result = @session.sign_request(:get, "/fapi/v1/income/asyn", params: kwargs.merge(startTime: start_time, endTime: end_time))
+        @session.base_url = "https://api.binance.com"
+        result
+      end
+
+      # Get Futures Transaction History Download Link by Id (USER_DATA)
+      #
+      # GET /fapi/v1/income/asyn/id
+      #
+      # @param downloadId [String]
+      # @option kwargs [Integer] :recvWindow The value cannot be greater than 60000
+      # @see https://binance-docs.github.io/apidocs/futures/en/#get-futures-transaction-history-download-link-by-id-user_data
+      def incomes_asyn_by_id(download_id:, **kwargs)
+        Binance::Utils::Validation.require_param("download_id", download_id)
+
+        @session.base_url = "https://fapi.binance.com"
+        result = @session.sign_request(:get, "/fapi/v1/income/asyn/id", params: kwargs.merge(downloadId: download_id))
         @session.base_url = "https://api.binance.com"
         result
       end
